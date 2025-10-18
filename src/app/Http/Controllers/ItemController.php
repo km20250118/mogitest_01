@@ -16,11 +16,20 @@ class ItemController extends Controller
   public function index(Request $request)
   {
     $tab = $request->query('tab', 'recommend');
-    $search = $request->query('search');
+    $search = $request->query('search', ''); // デフォルト値を空文字列に
+
     $query = Item::query();
-    $query->where('user_id', '<>', Auth::id());
+
+    // ログインしている場合のみ自分の商品を除外
+    if (Auth::check()) {
+      $query->where('user_id', '<>', Auth::id());
+    }
 
     if ($tab === 'mylist') {
+      if (!Auth::check()) {
+        return redirect()->route('login');
+      }
+
       $query->whereIn('id', function ($query) {
         $query->select('item_id')
           ->from('likes')
@@ -61,15 +70,9 @@ class ItemController extends Controller
 
   public function sellCreate(ItemRequest $request)
   {
-
     $img = $request->file('img_url');
 
-    try {
-      //code...
-      $img_url = Storage::disk('local')->put('public/img', $img);
-    } catch (\Throwable $th) {
-      throw $th;
-    }
+    $img_url = Storage::disk('local')->put('public/img', $img);
 
     $item = Item::create([
       'name' => $request->name,
