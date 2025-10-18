@@ -51,7 +51,13 @@ Route::get('/email/verify', function () {
 })->name('verification.notice');
 
 Route::post('/email/verification-notification', function (Request $request) {
-    session()->get('unauthenticated_user')->sendEmailVerificationNotification();
+    $user = session()->get('unauthenticated_user');
+
+    if (!$user) {
+        return redirect()->route('login')->with('error', 'セッションが切れました。もう一度ログインしてください。');
+    }
+
+    $user->sendEmailVerificationNotification();
     session()->put('resent', true);
     return back()->with('message', 'Verification link sent!');
 })->name('verification.send');
