@@ -6,6 +6,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\AddressController;
 use App\Http\Requests\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -67,3 +68,6 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     session()->forget('unauthenticated_user');
     return redirect('/mypage/profile');
 })->name('verification.verify');
+
+Route::get('/address/edit', [AddressController::class, 'edit'])->name('address.edit');
+Route::post('/address/update', [AddressController::class, 'update'])->name('address.update');

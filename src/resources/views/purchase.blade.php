@@ -37,7 +37,7 @@
                 <div class="purchase">
                     <div class="purchase__flex">
                         <h3 class="purchase__title">配送先</h3>
-                        <button type="button" id="destination__update">変更する</button>
+                        <a href="{{ route('address.edit') }}" class="text-blue-500 hover:underline">変更する</a>
                     </div>
                     <div class="purchase__value">
                         <label>〒 <input class="input_destination" name="destination_postcode" value="{{ $user->profile->postcode }}" readonly></label><br>
