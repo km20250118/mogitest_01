@@ -61,7 +61,7 @@
                 </tr>
                 <tr>
                     <th>商品の状態</th>
-                    <td>{{$item->condition->condition}}</td>
+                    <td>{{ $item->condition ? $item->condition->condition : '未設定' }}</td>
                 </tr>
             </table>
             <div id="comment" class="comment_section">

@@ -13,17 +13,6 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', [ItemController::class, 'index'])->name('items.list');
 Route::get('/item/{item}', [ItemController::class, 'detail'])->name('item.detail');
 Route::get('/item', [ItemController::class, 'search']);
@@ -42,6 +31,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/mypage', [UserController::class, 'mypage']);
     Route::get('/mypage/profile', [UserController::class, 'profile']);
     Route::post('/mypage/profile', [UserController::class, 'updateProfile']);
+    Route::get('/address/edit', [AddressController::class, 'edit'])->name('address.edit');
+    Route::post('/address/update', [AddressController::class, 'update'])->name('address.update');
 });
 
 Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware('email');
@@ -53,11 +44,9 @@ Route::get('/email/verify', function () {
 
 Route::post('/email/verification-notification', function (Request $request) {
     $user = session()->get('unauthenticated_user');
-
     if (!$user) {
         return redirect()->route('login')->with('error', 'セッションが切れました。もう一度ログインしてください。');
     }
-
     $user->sendEmailVerificationNotification();
     session()->put('resent', true);
     return back()->with('message', 'Verification link sent!');
@@ -68,6 +57,3 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     session()->forget('unauthenticated_user');
     return redirect('/mypage/profile');
 })->name('verification.verify');
-
-Route::get('/address/edit', [AddressController::class, 'edit'])->name('address.edit');
-Route::post('/address/update', [AddressController::class, 'update'])->name('address.update');

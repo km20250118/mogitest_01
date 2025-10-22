@@ -23,6 +23,8 @@ class CreateItemsTable extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('condition_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
+            $table->string('condition')->nullable(); // または ->default('良好')
+
         });
     }
 
