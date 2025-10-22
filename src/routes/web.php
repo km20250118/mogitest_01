@@ -55,5 +55,5 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
     session()->forget('unauthenticated_user');
-    return redirect('/mypage/profile');
+    return redirect('/mypage/profile')->with('success', 'メール認証が完了しました。プロフィールを設定してください。');
 })->name('verification.verify');

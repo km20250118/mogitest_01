@@ -139,7 +139,7 @@
 }
 
 .purchase__value {
-  padding: 40px 50px;
+  padding: 20px 30px;
 }
 
 .input_destination {
@@ -192,3 +192,52 @@
     vertical-align: middle;
   }
 }
+/* 配送先の表示スタイルを調整 */
+.purchase__value p {
+  margin: 15px 0;
+  /* 間隔を広げる */
+  line-height: 1.8;
+  font-size: 16px;
+  color: #333;
+  padding-left: 20px;
+  /* 左にパディングを追加して「選択してください」と揃える */
+}
+
+.purchase__value p:first-child {
+  margin-top: 10px;
+}
+
+.purchase__value p:last-child {
+  margin-bottom: 0;
+}
+
+/* 支払い方法のセレクトボックスのスタイル */
+.purchase select,
+#payment {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 16px;
+  border: 2px solid #00c896;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+  box-sizing: border-box;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.purchase select:focus,
+#payment:focus {
+  outline: none;
+  border-color: #00a87a;
+}
+
+/* セレクトボックスの選択肢のスタイル */
+.purchase select option,
+#payment option {
+  padding: 10px;
+  font-size: 16px;
+}
+
+主な変更点

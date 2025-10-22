@@ -13,7 +13,11 @@ class PurchaseController extends Controller
   public function index($item_id, Request $request)
   {
     $item = Item::find($item_id);
-    $user = User::find(Auth::id());
+
+    // Authインスタンスをリフレッシュして最新情報を取得
+    Auth::user()->refresh();
+    $user = Auth::user();
+
     return view('purchase', compact('item', 'user'));
   }
 

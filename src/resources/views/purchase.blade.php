@@ -1,14 +1,11 @@
 @extends('layouts.default')
 
-<!-- タイトル -->
 @section('title','購入手続き')
 
-<!-- css読み込み -->
 @section('css')
 <link rel="stylesheet" href="{{ asset('/css/purchase.css')  }}">
 @endsection
 
-<!-- 本体 -->
 @section('content')
 
 @include('components.header')
@@ -24,40 +21,46 @@
                     <p class="item__price">¥ {{number_format($item->price)}}</p>
                 </div>
             </div>
+            
             <div class="purchases">
                 <div class="purchase">
                     <div class="purchase__flex">
                         <h3 class="purchase__title">支払い方法</h3>
                     </div>
-                    <select class="purchase__value" id="payment" name="payment_method">
+                    <select 
+                        class="purchase__value" 
+                        id="payment" 
+                        name="payment_method"
+                        style="width: 100%; padding: 15px 20px; font-size: 16px; border: 2px solid #00c896; border-radius: 4px; background-color: #ffffff; color: #333; cursor: pointer; box-sizing: border-box; margin-top: 10px;"
+                    >
+                        <option value="" selected disabled>選択してください</option>
                         <option value="konbini">コンビニ払い</option>
                         <option value="card">クレジットカード払い</option>
                     </select>
                 </div>
+                
                 <div class="purchase">
                     <div class="purchase__flex">
                         <h3 class="purchase__title">配送先</h3>
-                        <a href="{{ route('address.edit', ['item_id' => $item->id]) }}" class="text-blue-500 hover:underline">変更する</a>
+                        <a href="{{ route('address.edit', ['item_id' => $item->id]) }}" id="purchase__update">変更する</a>
                     </div>
                     <div class="purchase__value">
-                        <label>〒 <input class="input_destination" name="destination_postcode" value="{{ $user->profile->postcode }}" readonly></label><br>
-                        <input class="input_destination" name="destination_address" value="{{ $user->profile->address }}" readonly><br>
-                        @if (isset($user->profile->building))
-                        <input class="input_destination" name="destination_building" value="{{ $user->profile->building }}" readonly>
+                        <p>〒 {{ $user->postal_code ?? '' }}</p>
+                        <p>{{ $user->address ?? '' }}</p>
+                        @if ($user->building)
+                        <p>{{ $user->building }}</p>
                         @endif
-                    </div>
-                    <div class="setting__flex">
-                        <button type="button" id="destination__setting">変更完了</button>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="buy__right">
             <div class="buy__info">
                 <table>
                     <tr>
                         <th class="table__header">商品代金</th>
-                        <td id="item__price" class="table__data" value="{{ number_format($item->price) }}">¥ {{ number_format($item->price) }}</td>
+                        <td id="item__price" class="table__data">¥ {{ number_format($item->price) }}</td>
                     </tr>
                     <tr>
                         <th class="table__header">支払い方法</th>
